@@ -10,7 +10,31 @@ class BackgroundCarousel extends React.Component {
 
         this.state = {
             selectedIndex: 0
-        }
+        }; 
+    }
+
+    // 자동 넘기기 기능
+    componentDidMount = () => {
+        setInterval(() => {
+            this.setState(prev => ({ selectedIndex: prev.selectedIndex === this.props.images.length - 1 ? 0 : prev.selectedIndex + 1}), 
+            () => {
+                this.scrollRef.current.scrollTo({
+                    animated: true,
+                    y: 0,
+                    x: DEVICE_WIDTH * this.state.selectedIndex
+                })
+            })
+        }, 3000);
+    };
+
+    setSelectedIndex = event => {
+        // width of the viewSize
+        const viewSize = event.nativeEvent.layoutMeasurement.width;
+        // get current position of the scrollView
+        const contentOffset = event.nativeEvent.contentOffset.x;
+
+        const selectedIndex = Math.floor(contentOffset / viewSize);
+        this.setState({ selectedIndex });
     }
 
     render() {
@@ -18,23 +42,55 @@ class BackgroundCarousel extends React.Component {
         const { selectedIndex } = this.state;
         return (
             <View style={{height: "100%", width: "100%"}}>
-                <ScrollView>
+                <ScrollView 
+                    horizontal 
+                    pagingEnabled 
+                    onMomentumScrollEnd={this.setSelectedIndex}
+                    ref={this.scrollRef}
+                >
                     {images.map(image => (
-                        <Image key={image}
-                        source={{url: image}}
+                        <Image 
+                        key={image}
+                        source={{uri: image}}
                         style={styles.backgroundImage} 
                         />
                     ))}
                 </ScrollView>
+                <View style={styles.circleDiv}>
+                    {images.map((image, i) => (
+                        <View 
+                            key={image}
+                            style={[styles.whiteCircle, { opacity: i === selectedIndex ? 0.5 : 1}]}
+                        />
+                    ))}
+                </View>
             </View>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     backgroundImage: {
         height: "100%",
-        width: DEVICE_WIDTH
+        width: DEVICE_WIDTH,
+        resizeMode: 'cover',
+    },
+    circleDiv: {
+        position: "absolute",
+        bottom: 15,
+        height: 10,
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    whiteCircle: {
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+        margin: 5,
+        backgroundColor: "#fff"
     }
 });
 
