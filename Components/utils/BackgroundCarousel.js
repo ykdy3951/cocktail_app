@@ -13,7 +13,7 @@ class BackgroundCarousel extends React.Component {
         }; 
     }
 
-    // 자동 넘기기 기능
+    // Auto Scroll function
     componentDidMount = () => {
         setInterval(() => {
             this.setState(prev => ({ selectedIndex: prev.selectedIndex === this.props.images.length - 1 ? 0 : prev.selectedIndex + 1}), 
