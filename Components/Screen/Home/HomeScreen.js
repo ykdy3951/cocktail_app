@@ -23,11 +23,13 @@ const heartCnt = 123;
 export default class HomeScreen extends React.Component {
     render() {
         return (
-            <View style={{flex: 1}}>
-                <View style={styles.imageContainer}>
-                    <BackgroundCarousel images={images} />
+            <View style={{flex: 1, backgroundColor: '#232323'}}>
+                <View style={styles.firstContainer}>
+                    <View style={styles.imageContainer}>
+                        <BackgroundCarousel images={images} />
+                    </View>
                 </View>
-                <View style={styles.container}>
+                <View style={styles.secondContainer}>
                     <StatusBar barStyle='light-content' backgroundColor='#000000' />
                     <CardView image={images[0]} name={name} heartCnt={heartCnt} />
                     <Text style={styles.text}>Home!</Text>
@@ -38,11 +40,14 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    firstContainer: {
+        flex: 2,
+        padding: "3%",
+        marginBottom: "10%",
+    },
+    secondContainer: {
       flex: 3,
-      backgroundColor: '#232323',
       alignItems: 'center',
-      justifyContent: 'center',
     },
     imageContainer: {
         flex: 2,

@@ -21,7 +21,7 @@ class BackgroundCarousel extends React.Component {
                 this.scrollRef.current.scrollTo({
                     animated: true,
                     y: 0,
-                    x: DEVICE_WIDTH * this.state.selectedIndex
+                    x: DEVICE_WIDTH * this.state.selectedIndex * 0.94015
                 })
             })
         }, 3000);
@@ -41,12 +41,13 @@ class BackgroundCarousel extends React.Component {
         const { images } = this.props;
         const { selectedIndex } = this.state;
         return (
-            <View style={{height: "100%", width: "100%"}}>
+            <View style={{height: "100%", width: "100%", backgroundColor: '#232323'}}>
                 <ScrollView 
                     horizontal 
                     pagingEnabled 
                     onMomentumScrollEnd={this.setSelectedIndex}
                     ref={this.scrollRef}
+                    showsHorizontalScrollIndicator={false}
                 >
                     {images.map(image => (
                         <Image 
@@ -72,8 +73,10 @@ class BackgroundCarousel extends React.Component {
 const styles = StyleSheet.create({
     backgroundImage: {
         height: "100%",
-        width: DEVICE_WIDTH,
+        width: DEVICE_WIDTH * 0.94015,
         resizeMode: 'cover',
+        borderRadius: 10,
+        overflow: 'hidden',
     },
     circleDiv: {
         position: "absolute",
