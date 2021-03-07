@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, ScrollView, Dimensions, Image, Text } from 'react-native';
+import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 
 const { height, width }  = Dimensions.get("window");
 
@@ -41,8 +41,6 @@ class CardView extends React.Component {
 
 const styles = StyleSheet.create({
     cardDiv: {
-        height: "100%", 
-        width: "30%", 
         // margin: "10%",  
         flex: 3,
         borderRadius: 10,
@@ -56,14 +54,14 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 8,
         borderWidth: 1,
-        borderColor: "#C8C8C8",
+        borderColor: "tomato", // c8c8c8
         justifyContent: "space-between",
     },
     cardDivTop: {
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         borderBottomWidth: 1,
-        borderColor: "#C8C8C8",
+        borderColor: "tomato",
         flex: 7,
         height: "100%",
         width: "100%",

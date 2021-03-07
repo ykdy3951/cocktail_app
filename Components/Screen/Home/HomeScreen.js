@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Text, Image, View, StyleSheet, StatusBar } from 'react-native';
+import { Text, Image, View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
 import { BackgroundCarousel } from '../../utils/BackgroundCarousel';
-import { CardView } from '../../utils/CardView';
+import { HomeContent } from './HomeContent';
 
 // 서버에서 매일 랜덤으로 5개를 가져와야함
 const images = [
@@ -20,20 +20,23 @@ const images = [
 const name = "Cocktail";
 const heartCnt = 123;
 
+const { height, width }  = Dimensions.get("window");
+
 export default class HomeScreen extends React.Component {
     render() {
         return (
             <View style={{flex: 1, backgroundColor: '#232323'}}>
-                <View style={styles.firstContainer}>
-                    <View style={styles.imageContainer}>
-                        <BackgroundCarousel images={images} />
+                <StatusBar barStyle='light-content' backgroundColor='#000000' />
+                <ScrollView>
+                    <View style={styles.firstContainer}>
+                        <View style={styles.imageContainer}>
+                            <BackgroundCarousel images={images} />
+                        </View>
                     </View>
-                </View>
-                <View style={styles.secondContainer}>
-                    <StatusBar barStyle='light-content' backgroundColor='#000000' />
-                    <CardView image={images[0]} name={name} heartCnt={heartCnt} />
-                    <Text style={styles.text}>Home!</Text>
-                </View>
+                    <View style={styles.secondContainer}>
+                        <HomeContent />
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -41,16 +44,18 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
     firstContainer: {
-        flex: 2,
+        height: height * 0.35,
+        width: width,
         padding: "3%",
         marginBottom: "10%",
     },
     secondContainer: {
-      flex: 3,
       alignItems: 'center',
     },
     imageContainer: {
         flex: 2,
+        height: '100%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
@@ -72,7 +77,7 @@ const styles = StyleSheet.create({
         // borderBottomRightRadius: 10,
     },
     text: {
-        flex : 3,
+        flex : 1,
         backgroundColor: '#0000FF'
     }
   });
