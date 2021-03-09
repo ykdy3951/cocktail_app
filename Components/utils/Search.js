@@ -1,8 +1,10 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Dimensions, ScrollView, StatusBar, Alert} from 'react-native';
 import {SearchBar} from 'react-native-elements';
+import { StyleSheet, View, Dimensions, Image, Text, TextInput} from 'react-native';
 
-export default class Search extends React.Component {
+const DEVICE_WIDTH = Dimensions.get('window').width;
+
+class Search extends React.Component {
     state = {
         search: '',
     };
@@ -14,11 +16,27 @@ export default class Search extends React.Component {
     render() {
         const {search} = this.state;
 
-        return(
-            <SearchBar
-            placeholder="Type Here..."
-            onChangeText={this.updateSearch}
-            value={search}/>
+        return (
+            <View style={styles.container}>
+                <SearchBar
+                placeholder="Type Here..."
+                onChangeText={this.updateSearch}
+                value={search}
+                />
+            </View>
+            
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#000",
+        height: "100%",
+        width: "100%"
+    },
+
+})
+
+export {Search}

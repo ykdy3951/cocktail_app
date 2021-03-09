@@ -1,10 +1,27 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { Preview } from '../../utils/Preview';
+import { Search } from '../../utils/Search';
+
+const images = [
+    "https://img.taste.com.au/7-t_jkYd/taste/2017/12/swp0080_recipe-integration-1980x1320px-b_v2-133202-1.jpg",
+    "https://vinepair.com/wp-content/uploads/2016/11/cocktailsubs-internal-header.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcDnIo8ADk4DL6-qAl1rg_hFv97ZyI7vc3fQ&usqp=CAU",
+    "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/index-1549384787.jpg",
+    "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/580A43B7-7DF1-4A88-927B-B41EBED7E4B3/Derivates/B80CA9FD-B5DE-4D3C-A34E-7C1D38B57B52.jpg",
+    // require("../../../data/image/cocktail_test_data_1.jpg"),
+    // require("../../../data/image/cocktail_test_data_2.jpg"),
+    // require("../../../data/image/cocktail_test_data_3.jpg"),
+    // require("../../../data/image/cocktail_test_data_4.jpg"),
+    // require("../../../data/image/cocktail_test_data_5.jpg"),
+];
 
 export default class RecipeScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Search />
+                <Preview image={images[1]} data={1}/>
                 <Text>Recipe!</Text>
             </View>
         )
