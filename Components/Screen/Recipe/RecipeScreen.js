@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
+import { ListItem, Item, Input, Icon } from 'native-base';
 import { Preview } from '../../utils/Preview';
 import { Search } from '../../utils/Search';
 
@@ -16,12 +17,40 @@ const images = [
     // require("../../../data/image/cocktail_test_data_5.jpg"),
 ];
 
+let menuArray=require('../../../data/sets/menuList.json');
+
 export default class RecipeScreen extends React.Component {
+    state = {
+        menu: menuArray,
+        filteredMenu: menuArray,
+    };
+
+    
+
     render() {
+        let keys = Object.keys(this.state.menu);
         return (
             <View style={styles.container}>
-                <Search />
-                <Preview image={images[1]} data={1}/>
+                <Item rounded>
+                    <Icon name='search' />
+                    <Input placeholder="Search Menu" />
+                </Item>
+                {/* <Preview image={images[1]} data={1}/> */}
+                {/* <ListItem> */}
+                
+                {
+                    keys.map(key => 
+                        <Text style={{fontSize: 50}}>
+                            { this.state.menu[key]["GARNISH"] }
+                        </Text>
+                )}
+                
+                    <Preview image={images[0]} data={0}/>
+                    <Preview image={images[1]} data={1}/>
+                    <Preview image={images[2]} data={2}/>
+                    <Preview image={images[3]} data={3}/>
+                {/* </ListItem> */}
+                <Preview image={images[0]} data={0}/>
                 <Text>Recipe!</Text>
             </View>
         )

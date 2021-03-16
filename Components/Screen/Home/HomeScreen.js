@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Text, Image, View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
+import { Header, Body, Title } from 'native-base';
+import * as Font from 'expo-font';
 import { BackgroundCarousel } from '../../utils/BackgroundCarousel';
 import { HomeContent } from './HomeContent';
 
@@ -23,31 +25,74 @@ const heartCnt = 123;
 const { height, width }  = Dimensions.get("window");
 
 export default class HomeScreen extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {isReady : false};
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({'Flottflott': require('../../../assets/fonts/Flottflott.ttf'), });
+
+        this.setState({ isReady: true });
+    }
+
     render() {
-        return (
-            <View style={{flex: 1, backgroundColor: '#232323'}}>
-                <StatusBar barStyle='light-content' backgroundColor='#000000' />
-                <ScrollView>
-                    <View style={styles.firstContainer}>
-                        <View style={styles.imageContainer}>
-                            <BackgroundCarousel images={images} />
+        if( this.state.isReady ) {
+            return (
+                <View style={{flex: 1, backgroundColor: '#232323'}}>
+                    <StatusBar barStyle='light-content' backgroundColor='#000000' />
+                    <View style={{marginTop: '5%', borderBottomColor: 'gray', borderBottomWidth: 1}}>
+                        <Title style={styles.title}>
+                            Home
+                        </Title>
+                    </View>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={styles.firstContainer}>
+                            <View style={styles.imageContainer}>
+                                <BackgroundCarousel images={images} />
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.secondContainer}>
-                        <HomeContent />
-                    </View>
-                </ScrollView>
-            </View>
-        )
+                        <View style={styles.secondContainer}>
+                            <HomeContent />
+                        </View>
+                    </ScrollView>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View>
+                    <Text>
+                        isLoading...
+                    </Text>
+                </View>
+            );
+        }
     }
 }
 
 const styles = StyleSheet.create({
+    title: {
+        fontFamily: 'Flottflott',
+        fontSize: height * 0.1, 
+        color: 'white',
+        textShadowColor: "pink",
+        textShadowOffset: {
+            width: -1,
+            height: 1
+        },
+        shadowOpacity: 0.3,
+        textShadowRadius: 10,
+    },
     firstContainer: {
         height: height * 0.35,
         width: width,
         padding: "3%",
-        marginBottom: "10%",
+        alignItems: 'center',
+        // marginBottom: "10%",
     },
     secondContainer: {
       alignItems: 'center',

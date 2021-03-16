@@ -5,13 +5,24 @@ import { StyleSheet, View, Dimensions, Image, Text, TextInput} from 'react-nativ
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 class Search extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         search: '',
     };
 
-    updateSearch = (search) => {
-        this.setState({search});
-    };
+    // updateSearch = (search) => {
+    //     this.setState({search});
+    // };
+
+    searchMenu = (search) => {
+        this.setState({
+            filteredMenu:this.state.menu.filter(i =>
+                i.name.toLowerCase().include(search.toLowerCase()))
+        });
+    }
 
     render() {
         const {search} = this.state;
@@ -20,7 +31,7 @@ class Search extends React.Component {
             <View style={styles.container}>
                 <SearchBar
                 placeholder="Type Here..."
-                onChangeText={this.updateSearch}
+                onChangeText={this.searchMenu}
                 value={search}
                 />
             </View>
