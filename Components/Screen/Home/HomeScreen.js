@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, Image, View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
 import { Header, Body, Title } from 'native-base';
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { BackgroundCarousel } from '../../utils/BackgroundCarousel';
 import { HomeContent } from './HomeContent';
 
@@ -42,11 +43,20 @@ export default class HomeScreen extends React.Component {
             return (
                 <View style={{flex: 1, backgroundColor: '#232323'}}>
                     <StatusBar barStyle='light-content' backgroundColor='#000000' />
-                    <View style={{marginTop: '5%', borderBottomColor: 'gray', borderBottomWidth: 1}}>
+                    <LinearGradient
+                        colors={['#161616', '#232323', '#373737']}
+                    >
+                    <View style={{paddingTop: '5%'}}>
                         <Title style={styles.title}>
                             Home
                         </Title>
                     </View>
+                    </LinearGradient>
+                    <LinearGradient 
+                        colors={['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0.5)','rgba(255, 255, 255, 0)']}
+                        style={{height: 10, backgroundColor: 'rgba(255, 255, 255, 0)'}}
+                    />
+                        
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                     >
@@ -91,6 +101,7 @@ const styles = StyleSheet.create({
         height: height * 0.35,
         width: width,
         padding: "3%",
+        paddingBottom: '0%',
         alignItems: 'center',
         // marginBottom: "10%",
     },

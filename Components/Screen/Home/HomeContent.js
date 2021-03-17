@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, Image, View, StyleSheet, StatusBar, ScrollView } from 'react-native';
-import { CardView } from '../../utils/CardView';
+import * as Font from 'expo-font';
+import { CardView } from '../../utils/CardView_v2';
 
 const images = [
     "https://img.taste.com.au/7-t_jkYd/taste/2017/12/swp0080_recipe-integration-1980x1320px-b_v2-133202-1.jpg",
@@ -19,10 +20,23 @@ const name = "Cocktail";
 const heartCnt = 123;
 
 export default class HomeContent extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {isReady : false};
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({'Flottflott': require('../../../assets/fonts/Flottflott.ttf'), });
+
+        this.setState({ isReady: true });
+    }
+
     render() {
+        if(this.state.isReady) {
         return (
             <View style={{flex: 1, height: "100%", width: "100%"}}>
-                <View style={{flex: 1, marginBottom: 100}}>
+                <View style={{flex: 1, marginTop: '5%'}}>
                     <Text style={styles.homeTextMenuStyle}>
                         New Cocktails!
                     </Text>
@@ -43,10 +57,22 @@ export default class HomeContent extends React.Component {
                             <View style={styles.CardCover}>
                                 <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
                             </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
                         </ScrollView>
                     </View>
                 </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, marginTop: '5%'}}>
                     <Text style={styles.homeTextMenuStyle}>
                         Top 10 Cocktails
                     </Text>
@@ -61,34 +87,63 @@ export default class HomeContent extends React.Component {
                             <View style={styles.CardCover}>
                                 <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
                             </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
+                            <View style={styles.CardCover}>
+                                <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
+                            </View>
                         </ScrollView>
                     </View>
                 </View>
             </View>
-        );
+        );}
+        else {
+            return (
+                <View>
+                    <Text>
+                        isLoading...
+                    </Text>
+                </View>
+            );
+        }
     }
 }
 
 const styles = StyleSheet.create({
     homeTextMenuStyle: {
-        shadowColor: 'tomato',
-        shadowOffset: { 
-            width: 0,
-            height: 4,
+        textShadowColor: 'blue',
+        textShadowOffset: { 
+            width: -1,
+            height: 1,
         },
         shadowOpacity: 0.30,
-        shadowRadius: 4.65,
+        textShadowRadius: 4.65,
         color: "white",
-        marginBottom: "1%",
-        fontSize: 20,
+        fontFamily: 'Flottflott',
+        fontSize: 40,
         margin: "2%",
         marginBottom: "3%",
+        backgroundColor: 'rgba(250, 0, 0, 0.5)',
+        borderColor: 'rgba(250, 10, 10, 0.5)',
+        borderWidth: 0.5,
     },
     scrollStyle: {
         backgroundColor: "#f9f9f9",
-        height: "100%",
-        width: "100%",
         flexDirection: "row",
+
     },
     CardCover: {
         flex: 1,

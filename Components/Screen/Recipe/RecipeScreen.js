@@ -39,12 +39,12 @@ export default class RecipeScreen extends React.Component {
                 {/* <ListItem> */}
                 
                 {
-                    keys.map(key => 
-                        <Text style={{fontSize: 50}}>
+                    keys.map((key, index) => 
+                        <Text key={index} style={{fontSize: 50}}>
                             { this.state.menu[key]["GARNISH"] }
                         </Text>
                 )}
-                
+                 
                     <Preview image={images[0]} data={0}/>
                     <Preview image={images[1]} data={1}/>
                     <Preview image={images[2]} data={2}/>
