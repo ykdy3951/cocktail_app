@@ -13,26 +13,30 @@ class Preview extends Component {
         return (
             <Card>
                 <CardItem>
-                    <Left>
+                    <Left style={{flex: 1}}>
                         <Thumbnail large square source={{uri: image}} />
                     </Left>
-                    <Body>
-                        <Text>
+                    <Body style={{flex: 3}}>
+                        <Text style={{marginBottom: 10}}>
                             { name }
                         </Text>
                         <Text note>
-                            { post["Tag"].map((tag, index) =>
-                                <View>
-                                    <Text key={index}>
+                            { post["TAG"].map((tag, index) =>
+                                <View key={index} style={{marginRight: 5}}>
+                                    <Button warning small>
+                                        <Text key={index}>
                                         { tag }
-                                    </Text>
+                                        </Text>
+                                    </Button>
                                 </View>
                             )}
                         </Text>
-                        <Button transparent>
-                            <Icon active name='heart' />
-                            <Text>{ post["HEART"] }</Text>
-                        </Button>
+                        <View>
+                            <Button transparent>
+                                <Icon active name='heart' />
+                                <Text>{ post["HEART"] }</Text>
+                            </Button>
+                        </View>
                     </Body>
                 </CardItem>
             </Card>

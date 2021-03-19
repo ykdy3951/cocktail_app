@@ -1,0 +1,34 @@
+[
+    {
+        "id" : 1,
+        "label": "VODKA"
+    },
+    {
+        "id": 2,
+        "label": "GIN"
+    },
+    {
+        "id": 3,
+        "label": "PEACHTREE"
+    },
+    {
+        "id": 4,
+        "label": "KAHNULA"
+    },
+    {
+        "id": 5,
+        "label": "WHISKY"
+    },
+    {
+        "id": 6,
+        "label": "THEQUILA"
+    },
+    {
+        "id": 7,
+        "label": "SOJU"
+    },
+    {
+        "id": 8,
+        "label": "RUM"
+    }
+]

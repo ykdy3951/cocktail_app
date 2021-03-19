@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { ListItem, Item, Input, Icon, Content } from 'native-base';
+import { Tags } from 'react-native-tags';
+import { TagSelect } from 'react-native-tag-select';
 import { Preview } from '../../utils/Preview_v2';
 import { Search } from '../../utils/Search';
 
@@ -19,13 +21,51 @@ const images = [
 
 const { height, width }  = Dimensions.get("window");
 
+const recipePreview = ({ item, width }) => {
+    return (
+        <View style={{ flex: 1, width: width, marginHorizontal: 10 }}>
+            <Preview
+                image={item["DATA"]["IMAGE"][0]} 
+                name={item["NAME"]}
+                post={item["POST"]}
+            />
+            <Text>{width}</Text>
+        </View>
+    )
+}
+
+const TagList = (tags) => (
+    <Tags
+        initialTags = {tags}
+            
+    />
+);
+
 let menuArray=require('../../../data/sets/menuList.json');
+let tagArray=require('../../../data/sets/tagList.json');
 
 export default class RecipeScreen extends React.Component {
     state = {
         menu: menuArray,
         filteredMenu: menuArray,
+        tags: tagArray,
+        filteredTags: tagArray,
     };
+
+    selectTags(tags) {
+        
+        this.setState({
+            filteredMenu:this.state.menu.filter(function(i) {
+                let bool = false;
+                tags.forEach(tag => {
+                    if(i["POST"]["TAG"].includes(tag)) {
+                        bool = true;
+                    }
+                });
+                return bool;
+            }),
+        });
+    }
 
     searchMenu(textToSearch) {
         this.setState({
@@ -36,7 +76,11 @@ export default class RecipeScreen extends React.Component {
     }
 
     render() {
-        console.log(width); 
+        const numColumns = (width >= 800 ? 2 : 1);
+        let allTags = Array();
+        tagArray.map((tag, index) => 
+            allTags.push(tag["label"])
+        );
         return (
             <View style={styles.container}>
                 <Item rounded>
@@ -46,8 +90,45 @@ export default class RecipeScreen extends React.Component {
                         onChangeText={text=>{this.searchMenu(text)}}
                     />
                 </Item>
-                <Content>
-                    {
+                {/* <Content> */}
+                {/* tags */}
+                <View style={{height: 50}}>
+                    <ScrollView
+                        horizontal={true}
+                        style={{height: 50}}
+                        >
+                        <TagSelect
+                            data={this.state.tags}
+                            ref={(tag) => {
+                                this.tag = tag;
+                            }}
+                            onItemPress={() => {
+                                let list = new Array();
+                                this.tag.itemsSelected.map((item, index) =>
+                                list.push(item["label"])
+                                );
+                                if(list.length)
+                                    this.selectTags(list);
+                                
+                                else{
+                                    this.selectTags(allTags);
+                                }
+                            }}
+                            containerStyle={{margin: 10, height: 50,}}
+                        />
+                    </ScrollView>
+                </View>
+                {/* menus boards */}
+                <View style={{flex: 1, padding: 10, alignItems: 'center'}}>
+                    <FlatList 
+                        numColumns={ numColumns }
+                        width={width}
+                        data={this.state.filteredMenu}
+                        renderItem={recipePreview}
+                        keyExtractor={ (item) => String(item["P_KEY"])}
+                    />
+                </View>
+                    {/* {
                     this.state.filteredMenu.map((data, index) =>
                         <ListItem key={index}>
                             <View style={{ width: width / 2}}>
@@ -59,8 +140,8 @@ export default class RecipeScreen extends React.Component {
                                 />
                             </View>
                         </ListItem>
-                    )}
-                </Content>
+                    )} */}
+                {/* </Content> */}
                 <Text>Recipe!</Text>
             </View>
         )
@@ -71,7 +152,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'center',
+    //   alignItems: 'center',
       justifyContent: 'center',
     },
   });

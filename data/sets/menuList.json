@@ -13,7 +13,7 @@
             "AUTHOR": "admin",
             "VIEW": 345,
             "HEART": 123,
-            "Tag": [
+            "TAG": [
                 "GIN"
             ]
         }
@@ -32,8 +32,8 @@
             "AUTHOR": "admin",
             "VIEW": 345,
             "HEART": 123,
-            "Tag": [
-                "GIN"
+            "TAG": [
+                "GIN", "VODKA"
             ]
         }
     },
@@ -51,8 +51,8 @@
             "AUTHOR": "admin",
             "VIEW": 345,
             "HEART": 123,
-            "Tag": [
-                "GIN"
+            "TAG": [
+                "GIN", "TEQUILA"
             ]
         }
     },
@@ -70,7 +70,7 @@
             "AUTHOR": "admin",
             "VIEW": 345,
             "HEART": 123,
-            "Tag": [
+            "TAG": [
                 "VODKA"
             ]
         }
