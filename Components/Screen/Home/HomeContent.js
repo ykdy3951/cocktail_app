@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, Image, View, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import * as Font from 'expo-font';
+import { LinearGradient } from 'expo-linear-gradient';
 import { CardView } from '../../utils/CardView_v2';
 
 const images = [
@@ -37,9 +38,13 @@ export default class HomeContent extends React.Component {
         return (
             <View style={{flex: 1, height: "100%", width: "100%"}}>
                 <View style={{flex: 1, marginTop: '5%'}}>
+                    <LinearGradient
+                        colors={['rgba(250, 0, 0, 0.5)','rgba(250, 0, 0, 0.5)', 'rgba(250, 0, 0, 0.5)', 'rgba(250, 0, 0, 0.5)', 'rgba(255, 255, 255, 0)']}
+                    >
                     <Text style={styles.homeTextMenuStyle}>
                         New Cocktails!
                     </Text>
+                    </LinearGradient>
                     <View style={styles.scrollStyle}>
                         {/* <View style={styles.CardCover}>
                             <CardView image={images[0]} name={name} heartCnt={heartCnt}/>
@@ -73,9 +78,13 @@ export default class HomeContent extends React.Component {
                     </View>
                 </View>
                 <View style={{flex: 1, marginTop: '5%'}}>
-                    <Text style={styles.homeTextMenuStyle}>
-                        Top 10 Cocktails
-                    </Text>
+                    <LinearGradient
+                        colors={['rgba(250, 0, 0, 0.5)','rgba(250, 0, 0, 0.5)', 'rgba(250, 0, 0, 0.5)', 'rgba(250, 0, 0, 0.5)', 'rgba(255, 255, 255, 0)']}
+                    >
+                        <Text style={styles.homeTextMenuStyle}>
+                            Top 10 Cocktails
+                        </Text>
+                    </LinearGradient>
                     <View style={styles.scrollStyle}>
                         <ScrollView
                             horizontal
@@ -136,9 +145,9 @@ const styles = StyleSheet.create({
         fontSize: 40,
         margin: "2%",
         marginBottom: "3%",
-        backgroundColor: 'rgba(250, 0, 0, 0.5)',
-        borderColor: 'rgba(250, 10, 10, 0.5)',
-        borderWidth: 0.5,
+        // backgroundColor: 'rgba(250, 0, 0, 0.5)',
+        // borderColor: 'rgba(250, 10, 10, 0.5)',
+        // borderWidth: 0.5,
     },
     scrollStyle: {
         backgroundColor: "#f9f9f9",

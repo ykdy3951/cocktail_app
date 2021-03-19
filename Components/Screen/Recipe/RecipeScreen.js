@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
-import { ListItem, Item, Input, Icon } from 'native-base';
-import { Preview } from '../../utils/Preview';
+import { Text, View, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { ListItem, Item, Input, Icon, Content } from 'native-base';
+import { Preview } from '../../utils/Preview_v2';
 import { Search } from '../../utils/Search';
 
 const images = [
@@ -17,6 +17,8 @@ const images = [
     // require("../../../data/image/cocktail_test_data_5.jpg"),
 ];
 
+const { height, width }  = Dimensions.get("window");
+
 let menuArray=require('../../../data/sets/menuList.json');
 
 export default class RecipeScreen extends React.Component {
@@ -25,32 +27,40 @@ export default class RecipeScreen extends React.Component {
         filteredMenu: menuArray,
     };
 
-    
+    searchMenu(textToSearch) {
+        this.setState({
+            filteredMenu:this.state.menu.filter( i=>
+                i["NAME"].toLowerCase().includes(textToSearch),
+            ),
+        });
+    }
 
     render() {
-        let keys = Object.keys(this.state.menu);
+        console.log(width); 
         return (
             <View style={styles.container}>
                 <Item rounded>
                     <Icon name='search' />
-                    <Input placeholder="Search Menu" />
+                    <Input 
+                        placeholder="Search Menu"
+                        onChangeText={text=>{this.searchMenu(text)}}
+                    />
                 </Item>
-                {/* <Preview image={images[1]} data={1}/> */}
-                {/* <ListItem> */}
-                
-                {
-                    keys.map((key, index) => 
-                        <Text key={index} style={{fontSize: 50}}>
-                            { this.state.menu[key]["GARNISH"] }
-                        </Text>
-                )}
-                 
-                    <Preview image={images[0]} data={0}/>
-                    <Preview image={images[1]} data={1}/>
-                    <Preview image={images[2]} data={2}/>
-                    <Preview image={images[3]} data={3}/>
-                {/* </ListItem> */}
-                <Preview image={images[0]} data={0}/>
+                <Content>
+                    {
+                    this.state.filteredMenu.map((data, index) =>
+                        <ListItem key={index}>
+                            <View style={{ width: width / 2}}>
+                                <Preview
+                                    key={index}
+                                    image={data["DATA"]["IMAGE"][0]} 
+                                    name={data["NAME"]}
+                                    post={data["POST"]}
+                                />
+                            </View>
+                        </ListItem>
+                    )}
+                </Content>
                 <Text>Recipe!</Text>
             </View>
         )
