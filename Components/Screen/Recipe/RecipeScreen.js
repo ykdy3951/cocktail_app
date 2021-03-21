@@ -21,36 +21,69 @@ const images = [
 
 const { height, width }  = Dimensions.get("window");
 
-const recipePreview = ({ item, width }) => {
+const recipePreview = ({ item, index, width }) => {
+    if(item.empty === true) {
+        return (
+            <View style={[styles.item, styles.itemInvisible]}>
+
+            </View>
+        )
+    }
     return (
-        <View style={{ flex: 1, width: width, marginHorizontal: 10 }}>
+        <View style={styles.item}>
             <Preview
                 image={item["DATA"]["IMAGE"][0]} 
                 name={item["NAME"]}
                 post={item["POST"]}
             />
-            <Text>{width}</Text>
         </View>
     )
 }
 
-const TagList = (tags) => (
-    <Tags
-        initialTags = {tags}
-            
-    />
-);
+const formatData = (data, numColumns) => {
+    const numberOfFullRows = Math.floor(data.length / numColumns);
+    let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
+    while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
+        data.push({
+            "P_KEY": `blank-${numberOfElementsLastRow}`, 
+            "NAME": null,
+            "DATA": {
+                "IMAGE": ["https://s3.eu-central-1.amazonaws.com/uploads.mangoweb.org/shared-prod/visegradfund.org/uploads/2018/08/portrait-blank-male.png"],
+                "ORIGIN" : null,
+                "INGREDIENTS" : [],
+                "METHOD" : null,
+                "GARNISH" : null,
+            },
+            "empty": true,
+            "POST" : {
+                "AUTHOR" : null,
+                "VIEW" : null,
+                "HEART": null,
+                "TAG": [
+                    null
+                ]
+            }
+        });
+        numberOfElementsLastRow = numberOfElementsLastRow + 1;
+    } 
+
+    return data;
+}
 
 let menuArray=require('../../../data/sets/menuList.json');
 let tagArray=require('../../../data/sets/tagList.json');
 
 export default class RecipeScreen extends React.Component {
-    state = {
-        menu: menuArray,
-        filteredMenu: menuArray,
-        tags: tagArray,
-        filteredTags: tagArray,
-    };
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            menu: menuArray,
+            filteredMenu: menuArray,
+            tags: tagArray,
+            filteredTags: tagArray,
+        };
+    }
 
     selectTags(tags) {
         
@@ -119,11 +152,12 @@ export default class RecipeScreen extends React.Component {
                     </ScrollView>
                 </View>
                 {/* menus boards */}
-                <View style={{flex: 1, padding: 10, alignItems: 'center'}}>
+                <View style={{flex: 1, padding: 10, flexDirection: 'row'}}>
                     <FlatList 
                         numColumns={ numColumns }
-                        width={width}
-                        data={this.state.filteredMenu}
+                        width={ width }
+                        index={(item, index) => index}
+                        data={formatData(this.state.filteredMenu, numColumns)}
                         renderItem={recipePreview}
                         keyExtractor={ (item) => String(item["P_KEY"])}
                     />
@@ -155,4 +189,12 @@ const styles = StyleSheet.create({
     //   alignItems: 'center',
       justifyContent: 'center',
     },
+    itemInvisible: {
+        backgroundColor: 'transparent',
+    },
+    item : {
+        flex: 1, 
+        width: width, 
+        marginHorizontal: 10
+    }
   });
