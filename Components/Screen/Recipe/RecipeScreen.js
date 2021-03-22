@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Text, View, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native';
-import { ListItem, Item, Input, Icon, Content } from 'native-base';
+import { ListItem, Item, Input, Icon, Content, Title } from 'native-base';
 import { Tags } from 'react-native-tags';
 import { TagSelect } from 'react-native-tag-select';
+import { LinearGradient } from 'expo-linear-gradient';
+
+// custom module
 import { Preview } from '../../utils/Preview_v2';
 import { Search } from '../../utils/Search';
 
@@ -100,7 +103,7 @@ export default class RecipeScreen extends React.Component {
                 this.selectTags(changeState);
             }
             else {
-                this.selectTags(this.state.allTags);
+                this.selectTags(arr);
             }
         }
     }
@@ -129,11 +132,11 @@ export default class RecipeScreen extends React.Component {
         
         this.setState({
             filteredMenu:this.state.menu.filter(function(i) {
-                let bool = false;
+                let bool = true;
                 tags.forEach(tag => {
-                    if(i["POST"]["TAG"].includes(tag)) {
-                        bool = true;
-                    }
+                    if(!i["POST"]["TAG"].includes(tag)) {
+                        bool = false;
+                    } 
                 }); 
                 return bool;
             }),
@@ -153,16 +156,30 @@ export default class RecipeScreen extends React.Component {
         
         return (
             <View style={styles.container}>
-                <Item rounded>
-                    <Icon name='search' />
-                    <Input 
-                        placeholder="Search Menu"
-                        onChangeText={text=>{this.searchMenu(text)}}
+                <View style={styles.titleContainer}>
+                    <Title style={styles.title} >
+                        Recipe
+                    </Title>
+                </View>
+                <LinearGradient 
+                        colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0)']}
+                        style={{height: 10, backgroundColor: 'rgba(255, 255, 255, 0)'}}
                     />
-                </Item>
+                <View style={styles.searchBar}>
+                    <Item rounded>
+                        <Icon name='search' />
+                        <Input 
+                            placeholder="Search Menu"
+                            ref={(text) => {
+                                this.text = text;
+                            }}
+                            onChangeText={text=>{this.searchMenu(text)}}
+                        />
+                    </Item>
+                </View>
                 {/* <Content> */}
                 {/* tags */}
-                <View style={{height: 50}}>
+                <View style={{height: 50, marginHorizontal: 10}}>
                     <ScrollView
                         horizontal={true}
                         style={{height: 50}}
@@ -175,21 +192,18 @@ export default class RecipeScreen extends React.Component {
                             onItemPress={() => {
                                 let list = new Array();
                                 this.tag.itemsSelected.map((item, index) =>
-                                list.push(item["label"])
+                                    list.push(item["label"])
                                 );
-                                if(list.length)
-                                    this.selectTags(list);
+                                    
+                                this.selectTags(list);
                                 
-                                else{
-                                    this.selectTags(this.state.allTags);
-                                }
                             }}
                             containerStyle={{margin: 10, height: 50,}}
                         />
                     </ScrollView>
                 </View>
                 {/* menus boards */}
-                <View style={{flex: 1, padding: 10, flexDirection: 'row'}}>
+                <View style={{flex: 1, padding: 10, flexDirection: 'row', marginVertical: '1%'}}>
                     <FlatList 
                         numColumns={ numColumns }
                         width={ width }
@@ -220,6 +234,24 @@ export default class RecipeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    titleContainer: {
+        paddingVertical : '3%', 
+        alignItems: 'flex-start', 
+        paddingLeft: '3%',
+    },
+    title: {
+        // fontFamily: 'Flottflott',
+        fontSize: height * 0.05, 
+        color: 'white',
+        textShadowColor: "pink",
+        textShadowOffset: {
+            width: -1,
+            height: 1
+        },
+        shadowOpacity: 0.3,
+        textShadowRadius: 10,
+        
+    },
     container: {
       flex: 1,
       backgroundColor: '#fff',
@@ -232,6 +264,11 @@ const styles = StyleSheet.create({
     item : {
         flex: 1, 
         width: width, 
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        marginBottom: '2%'
+    },
+    searchBar : {
+        marginHorizontal: 10,
+        marginVertical: '1.5%'
     }
   });
