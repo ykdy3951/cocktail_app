@@ -21,25 +21,6 @@ const images = [
 
 const { height, width }  = Dimensions.get("window");
 
-const recipePreview = ({ item, index, width }) => {
-    if(item.empty === true) {
-        return (
-            <View style={[styles.item, styles.itemInvisible]}>
-
-            </View>
-        )
-    }
-    return (
-        <View style={styles.item}>
-            <Preview
-                image={item["DATA"]["IMAGE"][0]} 
-                name={item["NAME"]}
-                post={item["POST"]}
-            />
-        </View>
-    )
-}
-
 const formatData = (data, numColumns) => {
     const numberOfFullRows = Math.floor(data.length / numColumns);
     let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
@@ -82,7 +63,66 @@ export default class RecipeScreen extends React.Component {
             filteredMenu: menuArray,
             tags: tagArray,
             filteredTags: tagArray,
+            allTags: tagArray.map((tag, index) =>
+                tag["label"]
+            )
         };
+    }
+
+    getResponse(result) {
+        let element;
+        for (let index = 0; index < tagArray.length; index++) {
+            element = tagArray[index];
+            if(element["label"] === result) {
+                break;
+            }
+        }
+        
+        if(!(String(element["id"]) in this.tag.state.value)) {
+            let arr = Array();
+            arr.push(result);
+            this.tag.state.value[String(element["id"])] = element;
+
+            Object.keys(this.tag.state.value).forEach(element => {
+                arr.push(this.tag.state.value[element]["label"]);
+            });
+            // console.log(arr);
+            this.selectTags(arr);
+        }
+        else {
+            delete this.tag.state.value[String(element["id"])];
+            let arr = Object.keys(this.tag.state.value);
+            if(arr.length) {
+                let changeState = Array();
+                arr.forEach(element => {
+                    changeState.push(this.tag.state.value[element]["label"]);
+                });
+                this.selectTags(changeState);
+            }
+            else {
+                this.selectTags(this.state.allTags);
+            }
+        }
+    }
+
+    recipePreview = ({ item, index, width }) => {
+        if(item.empty === true) {
+            return (
+                <View style={[styles.item, styles.itemInvisible]}>
+    
+                </View>
+            )
+        }
+        return (
+            <View style={styles.item}>
+                <Preview
+                    image={item["DATA"]["IMAGE"][0]} 
+                    name={item["NAME"]}
+                    post={item["POST"]}
+                    callback={this.getResponse.bind(this)}
+                />
+            </View>
+        )
     }
 
     selectTags(tags) {
@@ -94,7 +134,7 @@ export default class RecipeScreen extends React.Component {
                     if(i["POST"]["TAG"].includes(tag)) {
                         bool = true;
                     }
-                });
+                }); 
                 return bool;
             }),
         });
@@ -110,10 +150,7 @@ export default class RecipeScreen extends React.Component {
 
     render() {
         const numColumns = (width >= 800 ? 2 : 1);
-        let allTags = Array();
-        tagArray.map((tag, index) => 
-            allTags.push(tag["label"])
-        );
+        
         return (
             <View style={styles.container}>
                 <Item rounded>
@@ -144,7 +181,7 @@ export default class RecipeScreen extends React.Component {
                                     this.selectTags(list);
                                 
                                 else{
-                                    this.selectTags(allTags);
+                                    this.selectTags(this.state.allTags);
                                 }
                             }}
                             containerStyle={{margin: 10, height: 50,}}
@@ -158,7 +195,7 @@ export default class RecipeScreen extends React.Component {
                         width={ width }
                         index={(item, index) => index}
                         data={formatData(this.state.filteredMenu, numColumns)}
-                        renderItem={recipePreview}
+                        renderItem={this.recipePreview}
                         keyExtractor={ (item) => String(item["P_KEY"])}
                     />
                 </View>
