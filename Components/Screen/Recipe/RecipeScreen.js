@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Text, View, ScrollView, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, FlatList, Dimensions, TouchableOpacity, StatusBar } from 'react-native';
 import { ListItem, Item, Input, Icon, Content, Title } from 'native-base';
 import { Tags } from 'react-native-tags';
 import { TagSelect } from 'react-native-tag-select';
 import { LinearGradient } from 'expo-linear-gradient';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // custom module
 import { Preview } from '../../utils/Preview_v2';
@@ -58,6 +60,7 @@ let menuArray=require('../../../data/sets/menuList.json');
 let tagArray=require('../../../data/sets/tagList.json');
 
 export default class RecipeScreen extends React.Component {
+    
     constructor(props) {
         super(props);
         
@@ -66,6 +69,8 @@ export default class RecipeScreen extends React.Component {
             filteredMenu: menuArray,
             tags: tagArray,
             filteredTags: tagArray,
+            searchTag: [],
+            searchText: "",
             allTags: tagArray.map((tag, index) =>
                 tag["label"]
             )
@@ -81,8 +86,8 @@ export default class RecipeScreen extends React.Component {
             }
         }
         
+        let arr = Array();
         if(!(String(element["id"]) in this.tag.state.value)) {
-            let arr = Array();
             arr.push(result);
             this.tag.state.value[String(element["id"])] = element;
 
@@ -90,22 +95,18 @@ export default class RecipeScreen extends React.Component {
                 arr.push(this.tag.state.value[element]["label"]);
             });
             // console.log(arr);
-            this.selectTags(arr);
         }
         else {
             delete this.tag.state.value[String(element["id"])];
-            let arr = Object.keys(this.tag.state.value);
-            if(arr.length) {
-                let changeState = Array();
-                arr.forEach(element => {
-                    changeState.push(this.tag.state.value[element]["label"]);
+            let keyArr = Object.keys(this.tag.state.value);
+            if(keyArr.length) {
+                keyArr.forEach(element => {
+                    arr.push(this.tag.state.value[element]["label"]);
                 });
-                this.selectTags(changeState);
-            }
-            else {
-                this.selectTags(arr);
             }
         }
+
+        this.selectTags(arr);
     }
 
     recipePreview = ({ item, index, width }) => {
@@ -116,23 +117,33 @@ export default class RecipeScreen extends React.Component {
                 </View>
             )
         }
+        const {navigate} = this.props.navigation;
         return (
             <View style={styles.item}>
-                <Preview
-                    image={item["DATA"]["IMAGE"][0]} 
-                    name={item["NAME"]}
-                    post={item["POST"]}
-                    callback={this.getResponse.bind(this)}
-                />
+                <TouchableOpacity 
+                    onPress={() => navigate("Detail View", {item})}
+                >
+                    <Preview
+                        image={item["DATA"]["IMAGE"][0]} 
+                        name={item["NAME"]}
+                        post={item["POST"]}
+                        callback={this.getResponse.bind(this)}
+                    />
+                </TouchableOpacity>
             </View>
         )
     }
 
     selectTags(tags) {
-        
+        const textToSearch = this.state.searchText;
         this.setState({
             filteredMenu:this.state.menu.filter(function(i) {
                 let bool = true;
+                
+                if(!i["NAME"].toLowerCase().includes(textToSearch)) {
+                    return false;
+                }
+
                 tags.forEach(tag => {
                     if(!i["POST"]["TAG"].includes(tag)) {
                         bool = false;
@@ -140,14 +151,27 @@ export default class RecipeScreen extends React.Component {
                 }); 
                 return bool;
             }),
+            searchTag:tags,
         });
     }
 
     searchMenu(textToSearch) {
+        
+        const tags = this.state.searchTag;
         this.setState({
-            filteredMenu:this.state.menu.filter( i=>
-                i["NAME"].toLowerCase().includes(textToSearch),
-            ),
+            filteredMenu:this.state.menu.filter(function(i) {
+                let bool = true;
+                if(!i["NAME"].toLowerCase().includes(textToSearch)) {
+                    return false;
+                }
+                tags.forEach(tag => {
+                    if(!i["POST"]["TAG"].includes(tag)) {
+                        bool = false;
+                    } 
+                }); 
+                return bool;
+            }),
+            searchText:textToSearch,
         });
     }
 
@@ -156,6 +180,7 @@ export default class RecipeScreen extends React.Component {
         
         return (
             <View style={styles.container}>
+                <StatusBar barStyle='dark-content' backgroundColor='#000000' />
                 <View style={styles.titleContainer}>
                     <Title style={styles.title} >
                         Recipe
@@ -171,13 +196,12 @@ export default class RecipeScreen extends React.Component {
                         <Input 
                             placeholder="Search Menu"
                             ref={(text) => {
-                                this.text = text;
+                                this.searchText = text;
                             }}
                             onChangeText={text=>{this.searchMenu(text)}}
                         />
                     </Item>
                 </View>
-                {/* <Content> */}
                 {/* tags */}
                 <View style={{height: 50, marginHorizontal: 10}}>
                     <ScrollView
@@ -202,7 +226,6 @@ export default class RecipeScreen extends React.Component {
                         />
                     </ScrollView>
                 </View>
-                {/* menus boards */}
                 <View style={{flex: 1, padding: 10, flexDirection: 'row', marginVertical: '1%'}}>
                     <FlatList 
                         numColumns={ numColumns }
@@ -213,21 +236,6 @@ export default class RecipeScreen extends React.Component {
                         keyExtractor={ (item) => String(item["P_KEY"])}
                     />
                 </View>
-                    {/* {
-                    this.state.filteredMenu.map((data, index) =>
-                        <ListItem key={index}>
-                            <View style={{ width: width / 2}}>
-                                <Preview
-                                    key={index}
-                                    image={data["DATA"]["IMAGE"][0]} 
-                                    name={data["NAME"]}
-                                    post={data["POST"]}
-                                />
-                            </View>
-                        </ListItem>
-                    )} */}
-                {/* </Content> */}
-                <Text>Recipe!</Text>
             </View>
         )
     }

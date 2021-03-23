@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './Screen/Home/HomeScreen';
 import BoardScreen from './Screen/Board/BoardScreen';
 import ProfileScreen from './Screen/Profile/ProfileScreen';
+import Recipe from './Screen/Recipe/Recipe';
 import RecipeScreen from './Screen/Recipe/RecipeScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { TabRouter } from 'react-navigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,6 +21,17 @@ const myTheme = {
         background: '#474747'
     },
 };
+
+function hideTabMenu(route) {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    if(routeName === "Detail View") {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 
 // Tab 별 icon 정해서 전달하는 방법 생각하기 버튼 눌렀을 때 효과 방법 알아오기
 function MyTabs() {
@@ -49,8 +62,17 @@ function MyTabs() {
                 }
             }}
         >
-            <Tab.Screen name="Home" component = {HomeScreen} />
-            <Tab.Screen name="Recipe" component = {RecipeScreen}/> 
+            <Tab.Screen 
+                name="Home" 
+                component = {HomeScreen} 
+            />
+            <Tab.Screen 
+                name="Recipe" 
+                component = {Recipe}
+                options={({route}) => (
+                    {tabBarVisible : hideTabMenu(route)}
+                )}
+            /> 
             <Tab.Screen name="Board" component = {BoardScreen}/>
             <Tab.Screen name="Profile" component = {ProfileScreen}/>
         </Tab.Navigator>
