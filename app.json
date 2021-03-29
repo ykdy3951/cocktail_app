@@ -18,7 +18,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ccjb.cocktailapp"
+      "bundleIdentifier": "com.ccjb.cocktailapp",
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {

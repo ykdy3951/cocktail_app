@@ -123,14 +123,14 @@ export default class DetailScreen extends React.Component {
                             </View>
                         </View>
                     </ScrollView>
-                    <View style={{position:'absolute', bottom: 10, right: 10, backgroundColor: 'transparent', height: 50, width: 50, borderRadius: 25,}}>
+                    <View style={[styles.size, {position:'absolute', bottom: 30, right: 30, backgroundColor: 'transparent', }]}>
                         <TouchableHighlight
-                            activeOpacity={0.5}
+                            activeOpacity={0.8}
                             underlayColor="transparent"
                             onPress={() => navigate("Recipe list")}
                         >
-                            <View style={{height: 50, width: 50, borderRadius: 25, backgroundColor: 'black', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>
-                                <Entypo name="list" size={40} color="white" />
+                            <View style={[styles.size, {backgroundColor: 'rgba(180, 180, 180, 0.8)', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}]}>
+                                <Entypo name="list" size={DEVICE["height"] * 0.042} color="white" />
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -180,4 +180,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 30,
     },
+    size: {
+        height: DEVICE["height"] * 0.06, 
+        width : DEVICE["height"] * 0.06, 
+        borderRadius : DEVICE["height"] * 0.03,
+    }
 })

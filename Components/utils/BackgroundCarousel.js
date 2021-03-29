@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, View, ScrollView, Dimensions, Image } from 'react-native';
+import { ImageCarousel } from "image-auto-scroll";
 
-const DEVICE_WIDTH = Dimensions.get("window").width;
+const { height, width }  = Dimensions.get("window");
 
 class BackgroundCarousel extends React.Component {
     scrollRef = React.createRef();
@@ -9,7 +10,9 @@ class BackgroundCarousel extends React.Component {
         super(props);
 
         this.state = {
-            selectedIndex: 0
+            selectedIndex: 0,
+            width: this.props.width,
+            height: this.props.height,
         }; 
     }
 
@@ -21,7 +24,7 @@ class BackgroundCarousel extends React.Component {
                 this.scrollRef.current.scrollTo({
                     animated: true,
                     y: 0,
-                    x: DEVICE_WIDTH * this.state.selectedIndex * 0.94015
+                    x: width * 0.95 * this.state.selectedIndex
                 })
             })
         }, 3000);
@@ -42,6 +45,7 @@ class BackgroundCarousel extends React.Component {
         const { selectedIndex } = this.state;
         return (
             <View style={{height: "100%", width: "100%", backgroundColor: '#232323'}}>
+                {/* <ImageCarousel image={images} time={2000} /> */}
                 <ScrollView 
                     horizontal 
                     pagingEnabled 
@@ -53,7 +57,7 @@ class BackgroundCarousel extends React.Component {
                         <Image 
                         key={image}
                         source={{uri: image}}
-                        style={styles.backgroundImage} 
+                        style={[styles.backgroundImage, { width: this.state.width, height: this.props.height }]} 
                         />
                     ))}
                 </ScrollView>
@@ -72,10 +76,7 @@ class BackgroundCarousel extends React.Component {
 
 const styles = StyleSheet.create({
     backgroundImage: {
-        height: "100%",
-        width: DEVICE_WIDTH * 0.94015,
         resizeMode: 'cover',
-        borderRadius: 10,
         overflow: 'hidden',
     },
     circleDiv: {

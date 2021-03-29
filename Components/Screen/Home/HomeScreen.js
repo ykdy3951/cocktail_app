@@ -1,10 +1,15 @@
 import * as React from 'react';
-import { Text, Image, View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
+import { Text, Image, View, StyleSheet, Dimensions, StatusBar, ScrollView, RefreshControl } from 'react-native';
 import { Header, Body, Title } from 'native-base';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { SliderBox } from "react-native-image-slider-box";
+// custom module
 import { BackgroundCarousel } from '../../utils/BackgroundCarousel';
 import { HomeContent } from './HomeContent';
+import { withNavigation } from 'react-navigation';
+import { set } from 'react-native-reanimated';
 
 // 서버에서 매일 랜덤으로 5개를 가져와야함
 const images = [
@@ -25,23 +30,37 @@ const heartCnt = 123;
 
 const { height, width }  = Dimensions.get("window");
 
+const DEVICE = {
+    height: (height < width) ? width : height,
+    width: (width > height) ? height : width
+};
+
+function wait(timeout) {
+    return new Promise(resolve => {
+        setTimeout(resolve, timeout);
+    });
+}
+
 export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {isReady : false};
+        this.state = {
+            isReady : false,
+        };
     }
 
     async componentDidMount() {
         await Font.loadAsync({'Flottflott': require('../../../assets/fonts/Flottflott.ttf'), });
-
         this.setState({ isReady: true });
+        
+        // Dimensions.addEventListener('change', Updates.reload());
     }
 
     render() {
         if( this.state.isReady ) {
             return (
-                <View style={{flex: 1, backgroundColor: '#232323'}}>
+                <View style={{flex: 1, backgroundColor: '#232323', }}>
                     <StatusBar barStyle='light-content' backgroundColor='#000000' />
                     <LinearGradient
                         colors={['#161616', '#232323', '#373737']}
@@ -59,11 +78,34 @@ export default class HomeScreen extends React.Component {
                         
                     <ScrollView
                         showsVerticalScrollIndicator={false}
+                        style={{}}
                     >
                         <View style={styles.firstContainer}>
-                            <View style={styles.imageContainer}>
-                                <BackgroundCarousel images={images} />
-                            </View>
+                            <SliderBox
+                                images={images}
+                                dotColor="rgba(255, 255, 255, 0.5)"
+                                inactiveDotColor="white"
+                                autoplay
+                                circleLoop
+                                resizeMethod={'resize'}
+                                resizeMode={'cover'}
+                                paginationBoxStyle={{
+                                    position: "absolute",
+                                    bottom: 15,
+                                    padding: 0,
+                                    alignItems: "center",
+                                    alignSelf: "center",
+                                    justifyContent: "center",
+
+                                }}
+                                dotStyle={{
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: 4,
+                                    backgroundColor: "rgba(128, 128, 128, 0.92)"
+                                }}
+                                ImageComponentStyle={{borderRadius: 15, width: '97%', height: DEVICE["height"] * 0.35, marginTop: 5}}
+                            />
                         </View>
                         <View style={styles.secondContainer}>
                             <HomeContent />
@@ -87,7 +129,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
     title: {
         fontFamily: 'Flottflott',
-        fontSize: height * 0.1, 
+        fontSize: DEVICE["height"] * 0.1, 
         color: 'white',
         textShadowColor: "pink",
         textShadowOffset: {
@@ -98,11 +140,13 @@ const styles = StyleSheet.create({
         textShadowRadius: 10,
     },
     firstContainer: {
-        height: height * 0.35,
-        width: width,
+        height: DEVICE["height"] * 0.35,
+        width: "100%",
         padding: "3%",
         paddingBottom: '0%',
+        justifyContent: 'center',
         alignItems: 'center',
+        alignContent: 'center',
         // marginBottom: "10%",
     },
     secondContainer: {
@@ -110,10 +154,9 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: 2,
-        height: '100%',
+        height: DEVICE["height"] * 0.35,
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderRadius: 10,
         backgroundColor: '#F5FCFF',
         shadowColor: '#000',
         shadowOffset: { 

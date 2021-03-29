@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Dimensions } from 'react-native';
 import { DefaultTheme, getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import HomeScreen from './Screen/Home/HomeScreen';
 import BoardScreen from './Screen/Board/BoardScreen';
@@ -11,6 +12,7 @@ import RecipeScreen from './Screen/Recipe/RecipeScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { TabRouter } from 'react-navigation';
 
+const { height, width } = Dimensions.get("window");
 const Tab = createBottomTabNavigator();
 
 const myTheme = {
@@ -59,6 +61,7 @@ function MyTabs() {
                 inactiveTintColor: '#E3E3E3',
                 style: {
                     backgroundColor: '#474747',
+                    height: height * 0.06,
                 }
             }}
         >
@@ -80,6 +83,15 @@ function MyTabs() {
 }
 
 export default function MainScreen() {
+
+    // React.useEffect(() => {
+    //     lockOrientation()
+    // }, [])
+
+    // const lockOrientation = async () => {
+    //     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+    // }
+
     return (
         <NavigationContainer theme={myTheme}>
             <MyTabs/>
