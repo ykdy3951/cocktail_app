@@ -118,10 +118,11 @@ export default class RecipeScreen extends React.Component {
             )
         }
         const {navigate} = this.props.navigation;
+        const preRouterName = this.props.route.name;
         return (
             <View style={styles.item}>
                 <TouchableOpacity 
-                    onPress={() => navigate("Detail View", {item})}
+                    onPress={() => navigate("Detail View", {item: item, preRouterName: preRouterName})}
                 >
                     <Preview
                         image={item["DATA"]["IMAGE"][0]} 
@@ -155,8 +156,7 @@ export default class RecipeScreen extends React.Component {
         });
     }
 
-    searchMenu(textToSearch) {
-        
+    searchMenu(textToSearch) {    
         const tags = this.state.searchTag;
         this.setState({
             filteredMenu:this.state.menu.filter(function(i) {
@@ -234,6 +234,10 @@ export default class RecipeScreen extends React.Component {
                         data={formatData(this.state.filteredMenu, numColumns)}
                         renderItem={this.recipePreview}
                         keyExtractor={ (item) => String(item["P_KEY"])}
+                        
+                        // 나중에 제거 요망
+                        
+                        disableVirtualization={false}
                     />
                 </View>
             </View>

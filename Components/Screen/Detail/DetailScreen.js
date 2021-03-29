@@ -1,8 +1,12 @@
 import * as React from 'react';
+import update from 'react-addons-update';
 import { Text, View, StyleSheet, ScrollView, Dimensions, Image, TouchableOpacity, ImageBackground, TouchableHighlight, StatusBar } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import { ListItem, Item, Input, Icon, Content, Title, Body, Right, Button, Left } from 'native-base';
 import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import FloatingButton from './FloatingButton';
 
 const { height, width } = Dimensions.get("window");
 
@@ -16,8 +20,17 @@ export default class DetailScreen extends React.Component {
         super(props);
 
         this.state = {
+            listButtonClicked: false,
             bookmark: false,
             likeThis: false,
+            checked: Array.from({length: this.props.route.params.item["DATA"]["INGREDIENTS"].length}).fill(false),
+        }
+    }
+
+    getResponse(result) {
+        const { preRouterName } = this.props.route.params;
+        if(result === 1) {
+            this.props.navigation.navigate(preRouterName);
         }
     }
 
@@ -43,8 +56,10 @@ export default class DetailScreen extends React.Component {
                         <View style={{width: "100%", height: "100%", backgroundColor: "rgba(13, 13, 13, 0.5)", alignContent: 'center', alignItems: 'center'}}>
                             <View style={styles.imageContainer}>
                                 <LinearGradient
-                                    colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
-                                    start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+                                    colors={['orange', 'transparent', 'transparent', 'orange', 'orange', 'orange', 'orange']}
+                                    // colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
+                                    // start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+                                    start={{ x: 0.5, y: 0.5 }} end={{ x: 1, y: 1 }}
                                     style={{padding: 1}}
                                 >
                                 <View style={{height: '100%', }}>
@@ -76,7 +91,7 @@ export default class DetailScreen extends React.Component {
                             <View style={styles.headerContainer}>
                                 <View style={{paddingBottom: '1.5%',}}>
                                     <Left>
-
+                                        
                                     </Left>
 
                                     <Body style={{alignItems: 'center', alignContent: 'center'}}>
@@ -100,13 +115,32 @@ export default class DetailScreen extends React.Component {
                                 </Text>
                             </View>
                             <View style={styles.bodyContainer}>
-                                <View style={styles.bodyTitleContainer}>
-                                    <Text style={styles.text}>Ingredients</Text>
-                                </View>
-                                <View style={styles.ingredientContainer}>
-                                    <Text style={styles.text}>
-                                        { item["DATA"]["INGREDIENTS"] }
-                                    </Text>
+                                <View style={[styles.bodyTitleContainer, {flexDirection: "row"}]}>
+                                    <View style={{flex: 2.5}}>
+                                        <Text style={styles.text}>Ingredients</Text>
+                                    </View>
+                                    <View style={{flex: 8, display: "block", flexDirection: "row", flexWrap: "wrap"}}>
+                                    {
+                                        item["DATA"]["INGREDIENTS"].map((data, i) => 
+                                                <View key={i} style={{display: "inline", overflow: "hidden"}}>
+                                                    <CheckBox 
+                                                        title={data}
+                                                        key={i}
+                                                        checked={this.state.checked[i]}
+                                                        onPress={() => this.setState({
+                                                            checked: update(
+                                                                this.state.checked,
+                                                                {
+                                                                    [i] : {$set: !this.state.checked[i]}
+                                                                }
+                                                            )
+                                                        })}
+                                                        style={{}}
+                                                    />
+                                                </ View>
+                                        )
+                                    }
+                                    </View>
                                 </View>
                                 <View style={styles.bodyTitleContainer}>
                                     <Text style={styles.text}>Recipe</Text>
@@ -123,19 +157,8 @@ export default class DetailScreen extends React.Component {
                             </View>
                         </View>
                     </ScrollView>
-                    <View style={[styles.size, {position:'absolute', bottom: 30, right: 30, backgroundColor: 'transparent', }]}>
-                        <TouchableHighlight
-                            activeOpacity={0.8}
-                            underlayColor="transparent"
-                            onPress={() => navigate("Recipe list")}
-                        >
-                            <View style={[styles.size, {backgroundColor: 'rgba(180, 180, 180, 0.8)', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}]}>
-                                <Entypo name="list" size={DEVICE["height"] * 0.042} color="white" />
-                            </View>
-                        </TouchableHighlight>
-                    </View>
-
                 </ImageBackground>
+                <FloatingButton style={{bottom: "10%", right: "10%", backgroundColor: 'transparent'}} callback={this.getResponse.bind(this)} />
             </View>
         );
     }
@@ -161,11 +184,14 @@ const styles = StyleSheet.create({
     bodyContainer: {
         width: '100%',
         padding: "3%",
-        backgroundColor: 'blue',
     },
     bodyTitleContainer: {
-        padding: "3%",
-        backgroundColor: 'rgba(0, 255, 0, 0.5)',
+        margin: "3%",
+        backgroundColor: 'rgba(50, 50, 50, 0.2)',
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
+        borderRadius: 10
     },
     ingredientContainer: {
         padding: "5%",
@@ -180,9 +206,28 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 30,
     },
-    size: {
+    sizeMainButton: {
         height: DEVICE["height"] * 0.06, 
         width : DEVICE["height"] * 0.06, 
         borderRadius : DEVICE["height"] * 0.03,
+        backgroundColor: 'rgba(180, 180, 180, 0.8)',
+        alignItems: 'center', 
+        alignContent: 'center', 
+        justifyContent: 'center'
+    },
+    sizeButton: {
+        height: DEVICE["height"] * 0.05, 
+        width : DEVICE["height"] * 0.05,
+        borderRadius : DEVICE["height"] * 0.025,
+        marginBottom: "20%",
+        alignItems: 'center', 
+        alignContent: 'center', 
+        justifyContent: 'center'
+    },
+    buttonList: {
+        alignContent: 'center',
+        alignItems: 'center',
+        // height: "7%",
+        // width: DEVICE["height"] * 0.06,
     }
 })

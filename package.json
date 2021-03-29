@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@appandflow/masonry-list": "^0.4.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.8",
     "@react-navigation/native": "^5.9.3",
@@ -20,9 +21,11 @@
     "image-auto-scroll": "^1.0.1",
     "native-base": "^2.15.2",
     "react": "16.13.1",
+    "react-addons-update": "^15.6.3",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
-    "react-native-elements": "^3.3.0",
+    "react-native-card-flip": "^1.0.7",
+    "react-native-elements": "^3.3.2",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-image-slider-box": "^1.0.12",
     "react-native-orientation": "^3.1.3",
