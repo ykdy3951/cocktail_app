@@ -7,6 +7,8 @@ import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import FloatingButton from './FloatingButton';
+import AnimatedText from './AnimatedText';
+import Animated from 'react-native-reanimated';
 
 const { height, width } = Dimensions.get("window");
 
@@ -52,8 +54,8 @@ export default class DetailScreen extends React.Component {
                     }} 
                     blurRadius={50}
                 >
-                    <ScrollView style={styles.container}>
-                        <View style={{width: "100%", height: "100%", backgroundColor: "rgba(13, 13, 13, 0.5)", alignContent: 'center', alignItems: 'center'}}>
+                    <View style={{width: "100%", height: "100%", backgroundColor: "rgba(13, 13, 13, 0.5)", alignContent: 'center', alignItems: 'center', paddingTop: '2%'}}>
+                        <ScrollView style={styles.container}>
                             <View style={styles.imageContainer}>
                                 <LinearGradient
                                     colors={['orange', 'transparent', 'transparent', 'orange', 'orange', 'orange', 'orange']}
@@ -142,21 +144,11 @@ export default class DetailScreen extends React.Component {
                                     }
                                     </View>
                                 </View>
-                                <View style={styles.bodyTitleContainer}>
-                                    <Text style={styles.text}>Recipe</Text>
-                                </View>
-                                <View style={styles.stepContainer}>
-                                    <Text style={styles.text}>step1</Text>
-                                </View>
-                                <View style={styles.stepContainer}>
-                                    <Text style={styles.text}>step2</Text>
-                                </View>
-                                <View style={styles.stepContainer}>
-                                    <Text style={styles.text}>step3</Text>
-                                </View>
+                                <AnimatedText title={"Method"} content={item["DATA"]["METHOD"]} style={{margin: "3%", backgroundColor: 'rgba(50, 50, 50, 0.2)', borderRadius: 10}}/>
+                                <AnimatedText title={"Garnish"} content={item["DATA"]["GARNISH"]} style={{margin: "3%", backgroundColor: 'rgba(50, 50, 50, 0.2)', borderRadius: 10}} />
                             </View>
-                        </View>
-                    </ScrollView>
+                        </ScrollView>
+                    </View>
                 </ImageBackground>
                 <FloatingButton style={{bottom: "10%", right: "10%", backgroundColor: 'transparent'}} callback={this.getResponse.bind(this)} />
             </View>

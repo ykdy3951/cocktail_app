@@ -6,7 +6,7 @@
             "IMAGE": ["https://img.taste.com.au/7-t_jkYd/taste/2017/12/swp0080_recipe-integration-1980x1320px-b_v2-133202-1.jpg"],
             "ORIGIN" : "IBA",
             "INGREDIENTS" : ["1111111111111", "22", "33", "44", "55", "11", "22", "33", "44"],
-            "METHOD" : "",
+            "METHOD" : "1111111111111",
             "GARNISH" : "gg"
         },
         "POST" : {

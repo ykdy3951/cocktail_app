@@ -4,12 +4,9 @@ import { ListItem, Item, Input, Icon, Content, Title } from 'native-base';
 import { Tags } from 'react-native-tags';
 import { TagSelect } from 'react-native-tag-select';
 import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 // custom module
 import { Preview } from '../../utils/Preview_v2';
-import { Search } from '../../utils/Search';
 
 const images = [
     "https://img.taste.com.au/7-t_jkYd/taste/2017/12/swp0080_recipe-integration-1980x1320px-b_v2-133202-1.jpg",
@@ -56,8 +53,8 @@ const formatData = (data, numColumns) => {
     return data;
 }
 
-let menuArray=require('../../../data/sets/menuList.json');
-let tagArray=require('../../../data/sets/tagList.json');
+const menuArray=require('../../../data/sets/menuList.json');
+const tagArray=require('../../../data/sets/tagList.json');
 
 export default class RecipeScreen extends React.Component {
     
