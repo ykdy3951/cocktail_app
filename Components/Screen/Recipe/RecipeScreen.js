@@ -200,7 +200,7 @@ export default class RecipeScreen extends React.Component {
                     </Item>
                 </View>
                 {/* tags */}
-                <View style={{height: 50, marginHorizontal: 10}}>
+                <View style={{height: 50, marginHorizontal: "2%"}}>
                     <ScrollView
                         horizontal={true}
                         style={{height: 50}}
@@ -223,7 +223,7 @@ export default class RecipeScreen extends React.Component {
                         />
                     </ScrollView>
                 </View>
-                <View style={{flex: 1, padding: 10, flexDirection: 'row', marginVertical: '1%'}}>
+                <View style={{flex: 1, padding: "2%", flexDirection: 'row', marginVertical: '1%'}}>
                     <FlatList 
                         numColumns={ numColumns }
                         width={ width }
@@ -231,7 +231,7 @@ export default class RecipeScreen extends React.Component {
                         data={formatData(this.state.filteredMenu, numColumns)}
                         renderItem={this.recipePreview}
                         keyExtractor={ (item) => String(item["P_KEY"])}
-                        
+                        showsVerticalScrollIndicator={false}
                         // 나중에 제거 요망
                         
                         disableVirtualization={false}
@@ -272,9 +272,8 @@ const styles = StyleSheet.create({
     },
     item : {
         flex: 1, 
-        width: width, 
-        marginHorizontal: 10,
-        marginBottom: '2%'
+        paddingHorizontal: '1%', 
+        marginBottom: '2%',
     },
     searchBar : {
         marginHorizontal: 10,

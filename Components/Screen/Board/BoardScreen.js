@@ -175,6 +175,10 @@ class TouchableCard extends React.PureComponent {
                     />
                 </View>
                 <View style={[styles.back]}>
+                    <View>
+                        
+                    </View>
+
                     <Text>
                         Back
                     </Text>

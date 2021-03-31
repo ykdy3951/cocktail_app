@@ -121,10 +121,10 @@ export default class DetailScreen extends React.Component {
                                     <View style={{flex: 2.5}}>
                                         <Text style={styles.text}>Ingredients</Text>
                                     </View>
-                                    <View style={{flex: 8, display: "block", flexDirection: "row", flexWrap: "wrap"}}>
+                                    <View style={{flex: 8, flexDirection: "row", flexWrap: "wrap"}}>
                                     {
                                         item["DATA"]["INGREDIENTS"].map((data, i) => 
-                                                <View key={i} style={{display: "inline", overflow: "hidden"}}>
+                                                <View key={i} style={{overflow: "hidden"}}>
                                                     <CheckBox 
                                                         title={data}
                                                         key={i}
@@ -150,7 +150,7 @@ export default class DetailScreen extends React.Component {
                         </ScrollView>
                     </View>
                 </ImageBackground>
-                <FloatingButton style={{bottom: "10%", right: "10%", backgroundColor: 'transparent'}} callback={this.getResponse.bind(this)} />
+                <FloatingButton style={{bottom: "10%", right: "10%"}} callback={this.getResponse.bind(this)} />
             </View>
         );
     }

@@ -27,10 +27,6 @@ export default class AnimatedText extends React.Component {
         });
     }
 
-    onPress() {
-        this.setState({show: !this.state.show});
-    }
-
     render() {
         const { title, content } = this.props;
         

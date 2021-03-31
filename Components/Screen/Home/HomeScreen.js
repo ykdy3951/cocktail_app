@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component {
                     <LinearGradient
                         colors={['#161616', '#232323', '#373737']}
                     >
-                    <View style={{paddingTop: '5%'}}>
+                    <View style={{paddingTop: '5%', alignContent: 'center', alignItems: 'center'}}>
                         <Title style={styles.title}>
                             Home
                         </Title>

@@ -1,17 +1,24 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const { width, height } = Dimensions.get('window');
+
+const DEVICE = {
+    height: height > width ? height : width,
+    width: height < width ? height : width,
+}
 
 export default class FloatingButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.animation = new Animated.Value(0)
+        this.animation = new Animated.Value(0);
     }
-
+    
     toggleMenu = () => {
-        const toValue = this.open ? 0 : 1
+        const toValue = this.open ? 0 : 1;
 
         Animated.spring(this.animation, {
             toValue : toValue,
@@ -89,6 +96,7 @@ export default class FloatingButton extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         position: 'absolute',
     },

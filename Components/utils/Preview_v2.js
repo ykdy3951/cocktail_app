@@ -11,7 +11,7 @@ class Preview extends PureComponent {
         const { image, post, name } = this.props;
         
         return (
-            <Card>
+            <Card style={{borderWidth: 1, }}>
                 <CardItem>
                     <Left style={{flex: 1}}>
                         <Thumbnail large square source={{uri: image}} />

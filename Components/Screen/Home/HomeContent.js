@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, Image, View, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { Text, Image, View, StyleSheet, StatusBar, ScrollView, Dimensions } from 'react-native';
 import * as Font from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CardView } from '../../utils/CardView_v2';
@@ -16,6 +16,13 @@ const images = [
     // require("../../../data/image/cocktail_test_data_4.jpg"),
     // require("../../../data/image/cocktail_test_data_5.jpg"),
 ];
+
+const { height, width }  = Dimensions.get("window");
+
+const DEVICE = {
+    height: (height < width) ? width : height,
+    width: (width > height) ? height : width
+};
 
 const name = "Cocktail";
 const heartCnt = 123;
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 4.65,
         color: "white",
         fontFamily: 'Flottflott',
-        fontSize: 40,
+        fontSize: DEVICE["height"] * 0.038,
         margin: "2%",
         marginBottom: "3%",
         // backgroundColor: 'rgba(250, 0, 0, 0.5)',
