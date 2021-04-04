@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     },
     button: {
         position: "absolute",
-        width: DEVICE["height"] * 0.08,
-        height: DEVICE["height"] * 0.08,
-        borderRadius: DEVICE["height"] * 0.04,
+        width: DEVICE["height"] * 0.07,
+        height: DEVICE["height"] * 0.07,
+        borderRadius: DEVICE["height"] * 0.035,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
         // backgroundColor: '#F02A4B'
     },
     secondary: {
-        width: DEVICE["height"] * 0.064,
-        height: DEVICE["height"] * 0.064,
-        borderRadius: DEVICE["height"] * 0.032,
+        width: DEVICE["height"] * 0.056,
+        height: DEVICE["height"] * 0.056,
+        borderRadius: DEVICE["height"] * 0.028,
         backgroundColor: "#FFF",
     }
 })

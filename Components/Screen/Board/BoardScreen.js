@@ -214,7 +214,7 @@ export default class BoardScreen extends React.Component {
     render() {
         const numOfColumns = width / 500 + 2;
         const cardWidth = (width - 10 * (numOfColumns + 1)) / numOfColumns;
-        console.log(width);
+        // console.log(width);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle='dark-content' backgroundColor='#000' />

@@ -5,6 +5,7 @@ import { CheckBox } from 'react-native-elements';
 import { ListItem, Item, Input, Icon, Content, Title, Body, Right, Button, Left } from 'native-base';
 import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SliderBox } from "react-native-image-slider-box";
 
 import FloatingButton from '../../utils/FloatingButton';
 import AnimatedText from './AnimatedText';
@@ -61,18 +62,44 @@ export default class DetailScreen extends React.Component {
                         <ScrollView style={styles.container}>
                             <View style={styles.imageContainer}>
                                 <LinearGradient
-                                    colors={['orange', 'transparent', 'transparent', 'orange', 'orange', 'orange', 'orange']}
-                                    // colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
-                                    // start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
-                                    start={{ x: 0.5, y: 0.5 }} end={{ x: 1, y: 1 }}
+                                    // colors={['orange', 'transparent', 'transparent', 'orange', 'orange', 'orange', 'orange']}
+                                    colors={['#00FFFF', '#17C8FF', '#329BFF', '#4C64FF', '#6536FF', '#8000FF']}
+                                    start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
+                                    // start={{ x: 0.5, y: 0.5 }} end={{ x: 1, y: 1 }}
                                     style={{padding: 1}}
                                 >
                                 <View style={{height: '100%', }}>
-                                    <Image
+                                    <View style={{alignSelf: 'center', alignContent: 'center', alignItems: 'center', justifyContent: 'center', margin: 2,}}>
+                                        <SliderBox
+                                        images={image}
+                                        dotColor="rgba(255, 255, 255, 0.5)"
+                                        inactiveDotColor="white"
+                                        circleLoop
+                                        resizeMethod={'resize'}
+                                        resizeMode={'cover'}
+                                        paginationBoxStyle={{
+                                            position: "absolute",
+                                            bottom: 15,
+                                            padding: 0,
+                                            alignItems: "center",
+                                            alignSelf: "center",
+                                            justifyContent: "center",
+
+                                        }}
+                                        dotStyle={{
+                                            width: 8,
+                                            height: 8,
+                                            borderRadius: 4,
+                                            backgroundColor: "rgba(128, 128, 128, 0.92)"
+                                        }}
+                                        ImageComponentStyle={{height: '100%', }}
+                                        />
+                                    </View>
+                                    {/* <Image
                                         key={image[0]}
                                         source={{uri: image[0]}}
                                         style={{resizeMode: 'cover', overflow: 'hidden', height: "100%",}}
-                                    />
+                                    /> */}
                                     <View 
                                         style={{
                                             position:'absolute',
@@ -87,7 +114,7 @@ export default class DetailScreen extends React.Component {
                                                 });
                                             }}
                                         >
-                                            <Ionicons name={this.state.bookmark ? "ios-bookmark" : "ios-bookmark-outline"} size={DEVICE["height"] * 0.045} color={this.state.bookmark ? '#F6AE14' : 'white'} />
+                                            <Ionicons name={this.state.bookmark ? "ios-bookmark" : "ios-bookmark-outline"} size={DEVICE["height"] * 0.045} color={'#F6AE14'} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -121,10 +148,10 @@ export default class DetailScreen extends React.Component {
                             </View>
                             <View style={styles.bodyContainer}>
                                 <View style={[styles.bodyTitleContainer, {flexDirection: "row"}]}>
-                                    <View style={{}}>
+                                    <View style={{marginHorizontal: '2.5%'}}>
                                         <Text style={styles.tabText}>Ingredients</Text>
                                     </View>
-                                    <View style={{flex: 8, flexDirection: "row", flexWrap: "wrap"}}>
+                                    <View style={{flex: 7, flexDirection: "row", flexWrap: "wrap"}}>
                                     {
                                         item["DATA"]["INGREDIENTS"].map((data, i) => 
                                                 <View key={i} style={{overflow: "hidden"}}>
@@ -132,6 +159,8 @@ export default class DetailScreen extends React.Component {
                                                         title={data}
                                                         key={i}
                                                         checked={this.state.checked[i]}
+                                                        checkedColor='#F02A4B'
+                                                        containerStyle={styles.checkBox}
                                                         onPress={() => this.setState({
                                                             checked: update(
                                                                 this.state.checked,
@@ -236,5 +265,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // height: "7%",
         // width: DEVICE["height"] * 0.06,
+    },
+    checkBox: {
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: DEVICE["height"] * 0.03, 
+        borderColor: 'transparent',
+        shadowColor: 'black', 
+        shadowRadius: 10, 
+        shadowOpacity: 0.3,
+        shadowOffset: {height : 10},
+        elevation: 8,
     }
 })

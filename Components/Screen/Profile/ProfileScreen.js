@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Dimensions, StatusBar, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, StatusBar, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Title, Thumbnail, Left, Right, Body, Item } from 'native-base';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -25,6 +25,9 @@ export default class ProfileScreen extends React.Component {
     }
 
     render() {
+
+        const { navigate } = this.props.navigation;
+
         return (
             <View style={styles.container}>
                 <StatusBar barStyle='dark-content' backgroundColor='#000000' />
@@ -37,61 +40,51 @@ export default class ProfileScreen extends React.Component {
                         colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0)']}
                         style={{height: 10, backgroundColor: 'rgba(255, 255, 255, 0)'}}
                 />
-                <ScrollView>
-                    <View style={styles.idContainer}>
-                        <Item>
-                            <Thumbnail>
-                            </Thumbnail>
-                            <Text style={styles.text}>
-                                ID
-                            </Text>
-                        </Item>
-                    
-                    </View>
-                    <LinearGradient 
-                            colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0)']}
-                            style={{height: 10, width: '70%', alignSelf: 'center', backgroundColor: 'rgba(255, 255, 255, 0)'}}
-                    />
+                <TouchableWithoutFeedback onPress={() => navigate("Profile ID")}>
+                <View style={styles.idContainer}>
+                    <Thumbnail>
+                    </Thumbnail>
                     <Text style={styles.text}>
-                            CART
+                        ID
                     </Text>
-                    <View style={styles.cartContainer}>
-                        <View style={styles.contentContainer}>
-                            <Text>
-                                contents
-                            </Text>
-                        </View>
-                    </View>
-                    <LinearGradient 
-                            colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0)']}
-                            style={{height: 10, width: '70%', alignSelf: 'center', backgroundColor: 'rgba(255, 255, 255, 0)'}}
-                    />
+                </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigate("Profile Cart")}>
+                <View style={styles.cartContainer}>
                     <Text style={styles.text}>
-                        BOOKMARK
+                        My Cart
                     </Text>
-                    <View style={styles.bookmarkContainer}>
-                        <View style={styles.contentContainer}>
-                            <Text>
-                                contents
-                            </Text>
-                        </View>
+                    <View style={styles.contentContainer}>
+                        <Text>
+                            contents
+                        </Text>
                     </View>
-                    <LinearGradient 
-                            colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.5)','rgba(0, 0, 0, 0)']}
-                            style={{height: 10, width: '70%', alignSelf: 'center', backgroundColor: 'rgba(255, 255, 255, 0)'}}
-                    />
+                </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigate("Profile Bookmark")}>
+                <View style={styles.bookmarkContainer}>
                     <Text style={styles.text}>
-                        MY FEED
+                        My bookmark
                     </Text>
-                    <View style={styles.myFeedContainer}>
-                        <View style={styles.contentContainer}>
-                            <Text>
-                                contents
-                            </Text>
-                        </View>
+                    <View style={styles.contentContainer}>
+                        <Text>
+                            contents
+                        </Text>
                     </View>
-                </ScrollView>
-                    
+                </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => navigate("Profile My Feed")}>
+                <View style={styles.myFeedContainer}>
+                    <Text style={styles.text}>
+                        My Feed
+                    </Text>
+                    <View style={styles.contentContainer}>
+                        <Text>
+                            contents
+                        </Text>
+                    </View>
+                </View>    
+                </TouchableWithoutFeedback>                
             </View>
             
         )
@@ -100,6 +93,7 @@ export default class ProfileScreen extends React.Component {
 
 const styles = StyleSheet.create({
     titleContainer: {
+        height: '15%',
         paddingVertical : '3%', 
         alignItems: 'flex-start', 
         // paddingLeft: '3%',
@@ -126,30 +120,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     idContainer: {
-        width: '100%',
+        flex: 1,
         backgroundColor: "orange",
     },
     cartContainer: {
-        width: '100%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: "pink",
     },
     bookmarkContainer: {
-        width: '100%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: "yellow",
     },
     myFeedContainer: {
-        width: '100%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: "green",
     },
     contentContainer: {
-        width: '70%',
-        height: '30%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',

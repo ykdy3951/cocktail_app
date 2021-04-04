@@ -6,7 +6,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 
 import HomeScreen from './Screen/Home/HomeScreen';
 import BoardScreen from './Screen/Board/BoardScreen';
-import ProfileScreen from './Screen/Profile/ProfileScreen';
+import Profile from './Screen/Profile/Profile';
 import Recipe from './Screen/Recipe/Recipe';
 import RecipeScreen from './Screen/Recipe/RecipeScreen';
 import { Ionicons } from '@expo/vector-icons';
@@ -77,7 +77,7 @@ function MyTabs() {
                 )}
             /> 
             <Tab.Screen name="Board" component = {BoardScreen}/>
-            <Tab.Screen name="Profile" component = {ProfileScreen}/>
+            <Tab.Screen name="Profile" component = {Profile}/>
         </Tab.Navigator>
     );
 }
