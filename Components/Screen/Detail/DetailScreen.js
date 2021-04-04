@@ -6,7 +6,7 @@ import { ListItem, Item, Input, Icon, Content, Title, Body, Right, Button, Left 
 import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import FloatingButton from './FloatingButton';
+import FloatingButton from '../../utils/FloatingButton';
 import AnimatedText from './AnimatedText';
 import Animated from 'react-native-reanimated';
 
@@ -33,6 +33,9 @@ export default class DetailScreen extends React.Component {
         const { preRouterName } = this.props.route.params;
         if(result === 1) {
             this.props.navigation.navigate(preRouterName);
+        }
+        else {
+            // this.state.checked를 넘겨주기
         }
     }
 
@@ -84,7 +87,7 @@ export default class DetailScreen extends React.Component {
                                                 });
                                             }}
                                         >
-                                            <Ionicons name="ios-bookmark" size={35} color={this.state.bookmark ? '#F6AE14' : 'white'} />
+                                            <Ionicons name={this.state.bookmark ? "ios-bookmark" : "ios-bookmark-outline"} size={DEVICE["height"] * 0.045} color={this.state.bookmark ? '#F6AE14' : 'white'} />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -104,7 +107,7 @@ export default class DetailScreen extends React.Component {
                                                 });
                                             }}
                                         >
-                                            <AntDesign size={40} name={"heart"} color={this.state.likeThis ? '#F15F76' : 'white'} />    
+                                            <AntDesign size={DEVICE["height"] * 0.04} name={this.state.likeThis ? "heart" : "hearto"} color={'#F15F76'} />    
                                         </TouchableOpacity>
                                     </Body>
                                     <Right>
@@ -112,14 +115,14 @@ export default class DetailScreen extends React.Component {
                                     </Right>
                                 </View>
                                 
-                                <Text style={[styles.text,]}>
+                                <Text style={[styles.nameText,]}>
                                     { item["NAME"] }
                                 </Text>
                             </View>
                             <View style={styles.bodyContainer}>
                                 <View style={[styles.bodyTitleContainer, {flexDirection: "row"}]}>
-                                    <View style={{flex: 2.5}}>
-                                        <Text style={styles.text}>Ingredients</Text>
+                                    <View style={{}}>
+                                        <Text style={styles.tabText}>Ingredients</Text>
                                     </View>
                                     <View style={{flex: 8, flexDirection: "row", flexWrap: "wrap"}}>
                                     {
@@ -137,7 +140,7 @@ export default class DetailScreen extends React.Component {
                                                                 }
                                                             )
                                                         })}
-                                                        style={{}}
+                                                        size={DEVICE["height"] * 0.02}
                                                     />
                                                 </ View>
                                         )
@@ -150,7 +153,7 @@ export default class DetailScreen extends React.Component {
                         </ScrollView>
                     </View>
                 </ImageBackground>
-                <FloatingButton style={{bottom: "10%", right: "10%"}} callback={this.getResponse.bind(this)} />
+                <FloatingButton style={{bottom: "12%", right: "10%"}} iconNames={["reply", "shopping-cart"]} callback={this.getResponse.bind(this)} color={"#F02A4B"} />
             </View>
         );
     }
@@ -193,10 +196,22 @@ const styles = StyleSheet.create({
         padding: "5%",
         backgroundColor: 'pink',
     },
-    text: {
+    nameText: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 30,
+        fontSize: DEVICE["height"] * 0.05,
+        textShadowColor: "pink",
+        textShadowOffset: {
+            width: 2,
+            height: 1
+        },
+        shadowOpacity: 0.3,
+        textShadowRadius: 10,
+    },
+    tabText: {
+        textAlign: 'center',
+        color: 'white',
+        fontSize: DEVICE["height"] * 0.03,
     },
     sizeMainButton: {
         height: DEVICE["height"] * 0.06, 

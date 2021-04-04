@@ -1,8 +1,15 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { Left, Body, Right } from 'native-base';
 import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import ThemedListItem from 'react-native-elements/dist/list/ListItem';
+
+const { height, width } = Dimensions.get("window");
+
+const DEVICE = {
+    height: (height < width) ? width : height,
+    width: (width > height) ? height : width
+};
 
 export default class AnimatedText extends React.Component {
     constructor(props) {
@@ -95,9 +102,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
         alignItems: 'center',
         justifyContent: 'center',
         shadowRadius: 10,
@@ -114,11 +118,11 @@ const styles = StyleSheet.create({
         marginTop: '3%'
     },
     titleText: {
-        fontSize: 40,
+        fontSize: DEVICE["height"] * 0.04,
         color: "#FFF",
     },
     contentText: {
-        fontSize: 30,
+        fontSize: DEVICE["height"] * 0.032,
         color: "#FFF",
     }
 })

@@ -36,7 +36,7 @@ export default class FloatingButton extends React.Component {
                 {
                     translateY: this.animation.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0, -140]
+                        outputRange: [0, -DEVICE["height"] * 0.185]
                     })
                 }
             ]
@@ -48,7 +48,7 @@ export default class FloatingButton extends React.Component {
                 {
                     translateY: this.animation.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [0, -80]
+                        outputRange: [0, -DEVICE["height"] * 0.106]
                     })
                 }
             ]
@@ -69,24 +69,47 @@ export default class FloatingButton extends React.Component {
             inputRange: [0, 0.5, 1],
             outputRange: [0, 0, 1]
         })
-
+        const { iconNames, color } = this.props;
         return (
             <View style={[styles.container, this.props.style]}>
+
                 <TouchableWithoutFeedback onPress={() => this.props.callback(1)}>
-                    <Animated.View style={[styles.button, styles.secondary, replyStyle, opacity]}>
-                        <Entypo name="reply" size={20} color="#F02A4B" />
+                    <Animated.View style={[styles.button, styles.secondary, replyStyle, opacity, 
+                        {   shadowColor: color, 
+                            shadowRadius: 10, 
+                            shadowOpacity: 0.3,
+                            shadowOffset: {height : 10},
+                            elevation: 8,
+                        }
+                    ]}>
+                        <Entypo name={iconNames[0]} size={DEVICE["height"] * 0.0256} color={color} />
                     </Animated.View>
                 </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback onPress={() => this.props.callback(2)}>
-                    <Animated.View style={[styles.button, styles.secondary, addToCartStyle, opacity]}>
-                        <Entypo name="shopping-cart" size={20} color="#F02A4B" />
+                    <Animated.View style={[styles.button, styles.secondary, addToCartStyle, opacity, 
+                        {   shadowColor: color, 
+                            shadowRadius: 10, 
+                            shadowOpacity: 0.3,
+                            shadowOffset: {height : 10},
+                            elevation: 8,
+                        }
+                    ]}>
+                        <Entypo name={iconNames[1]} size={DEVICE["height"] * 0.0256} color={this.props.color} />
                     </Animated.View>
                 </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback onPress={this.toggleMenu}>
-                    <Animated.View style={[styles.button, styles.menu, rotation]}>
-                        <AntDesign name="plus" size={24} color="#FFF" />
+                    <Animated.View style={[styles.button, styles.menu, rotation, 
+                        {   shadowColor: color, 
+                            backgroundColor: color, 
+                            shadowRadius: 10, 
+                            shadowOpacity: 0.3,
+                            shadowOffset: {height : 10},
+                            elevation: 8,
+                        }
+                    ]}>                        
+                        <AntDesign name="plus" size={DEVICE["height"] * 0.032} color="#FFF" />
                     </Animated.View>
                 </TouchableWithoutFeedback>
             </View>
@@ -102,24 +125,19 @@ const styles = StyleSheet.create({
     },
     button: {
         position: "absolute",
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
+        width: DEVICE["height"] * 0.08,
+        height: DEVICE["height"] * 0.08,
+        borderRadius: DEVICE["height"] * 0.04,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowRadius: 10,
-        shadowColor: '#F02A4B',
-        shadowOpacity: 0.3,
-        shadowOffset: {height : 10},
-        elevation: 8,
     },
     menu: {
-        backgroundColor: '#F02A4B'
+        // backgroundColor: '#F02A4B'
     },
     secondary: {
-        width: 48,
-        height: 48,
-        borderRadius: 48 / 2,
+        width: DEVICE["height"] * 0.064,
+        height: DEVICE["height"] * 0.064,
+        borderRadius: DEVICE["height"] * 0.032,
         backgroundColor: "#FFF",
     }
 })

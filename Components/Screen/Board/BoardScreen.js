@@ -6,6 +6,8 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import FlipCard from 'react-native-flip-card';
 import MasonryList from '@appandflow/masonry-list';
 
+import FloatingButton from '../../utils/FloatingButton';
+
 LogBox.ignoreAllLogs();
 
 const sampleData = [
@@ -198,6 +200,10 @@ export default class BoardScreen extends React.Component {
         };
     }
 
+    getResponse(result) {
+        
+    }
+
     _refreshRequest = () => {
         this.setState({isRefreshing: true});
         setTimeout(() => {
@@ -208,7 +214,7 @@ export default class BoardScreen extends React.Component {
     render() {
         const numOfColumns = width / 500 + 2;
         const cardWidth = (width - 10 * (numOfColumns + 1)) / numOfColumns;
-
+        console.log(width);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle='dark-content' backgroundColor='#000' />
@@ -220,22 +226,10 @@ export default class BoardScreen extends React.Component {
                 <View>
                 </View>
                 <View style={{padding: "2%", alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
-                    <View>
-                        <MasonryList
-                            onRefresh={this._refreshRequest}
-                            refreshing={this.state.isRefreshing}
-                            data={sampleData}
-                            renderItem={({ item }) => <TouchableCard item={item} />}
-                            getHeightForItem={({ item }) => (item["POST"]["HEART"] > 50 ? cardWidth * 1.5 : cardWidth * (1 + item["POST"]["HEART"] / 100))}
-                            numColumns={numOfColumns}
-                            keyExtractor={item => item["P_KEY"]}
-                            contentContainerStyle={[styles.card2, {width : cardWidth * 3 + 120}]}
-                            
-                        />
-                    </View>
+                    
                 </View>
+                <FloatingButton style={{bottom: "10%", right: "10%"}} iconNames={["reply", "pencil"]} color={"tomato"} callback={this.getResponse.bind(this)} />
             </View>
-
         )
     }
 }
