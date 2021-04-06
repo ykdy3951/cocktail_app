@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, StatusBar, Dimensions, Image } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, Dimensions, Image, FlatList } from 'react-native';
 import { LogBox } from 'react-native';
 import { Title } from 'native-base';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
@@ -9,6 +9,12 @@ import MasonryList from '@appandflow/masonry-list';
 import FloatingButton from '../../utils/FloatingButton';
 
 LogBox.ignoreAllLogs();
+
+const posts = [
+    {"TITLE": 'Test1', "THUMB": 5, "BODY": 'AAA'},
+    {"TITLE": 'Test2', "THUMB": 4, "BODY": 'BBB'},
+    {"TITLE": 'Test3', "THUMB": 8, "BODY": 'CCC'}
+]
 
 const sampleData = [
     {
@@ -197,11 +203,16 @@ export default class BoardScreen extends React.Component {
         this.state={
             isRefreshing: false,
             card: null,
+            title: '',
+            thumb: 0,
+            body: '',
         };
     }
 
     getResponse(result) {
-        
+        if(result === 2) {
+            this.props.navigation.navigate("Board Write");
+        }
     }
 
     _refreshRequest = () => {
@@ -211,10 +222,24 @@ export default class BoardScreen extends React.Component {
         }, 1000);
     };
 
+    BoardPreview = ({ title, body, thumb }) => {
+        // const {navigate} = this.props.navigation;
+        // const preRouterName = this.props.route.name;
+        return (
+            <View>
+                <TouchableOpacity 
+                    onPress={() => navigate("Board Content", {title: title, body: body, thumb: thumb})}
+                >
+                    
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     render() {
         const numOfColumns = width / 500 + 2;
         const cardWidth = (width - 10 * (numOfColumns + 1)) / numOfColumns;
-        // console.log(width);
+        
         return (
             <View style={styles.container}>
                 <StatusBar barStyle='dark-content' backgroundColor='#000' />
@@ -224,6 +249,8 @@ export default class BoardScreen extends React.Component {
                     </Title>
                 </View>
                 <View>
+                    
+
                 </View>
                 <View style={{padding: "2%", alignContent: 'center', alignItems: 'center', justifyContent: 'center'}}>
                     

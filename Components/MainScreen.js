@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 import HomeScreen from './Screen/Home/HomeScreen';
-import BoardScreen from './Screen/Board/BoardScreen';
+import Board from './Screen/Board/Board';
 import Profile from './Screen/Profile/Profile';
 import Recipe from './Screen/Recipe/Recipe';
 import RecipeScreen from './Screen/Recipe/RecipeScreen';
@@ -76,7 +76,7 @@ function MyTabs() {
                     {tabBarVisible : hideTabMenu(route)}
                 )}
             /> 
-            <Tab.Screen name="Board" component = {BoardScreen}/>
+            <Tab.Screen name="Board" component = {Board}/>
             <Tab.Screen name="Profile" component = {Profile}/>
         </Tab.Navigator>
     );
